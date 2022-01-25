@@ -1,11 +1,26 @@
-import React from "react";
-import "./style.css";
+import React, { useState, useRef } from 'react';
+import TodoList from './TodoList';
 
-export default function App() {
+function App() {
+  const [todos, setTodos] = useState([]);
+  const todoNameRef = useRef();
+  function handleAddTodo(e) {
+    const name = todoNameRef.current.value;
+    if (name === '') return;
+    setTodos((prevTodos) => {
+      return [...prevTodos, { id: 1, name: name, complete: false }];
+    });
+    todoNameRef.current.value = null;
+  }
+
   return (
-    <div>
-      <h1>Hello StackBlitz!</h1>
-      <p>Start editing to see some magic happen :)</p>
-    </div>
+    <>
+      <TodoList todos={todos} />
+      <input ref={todoNameRef} type="text" />
+      <button onClick={handleAddTodo}> Add Todo </button>
+      <button> Clear completed Todos </button>
+      <div> 0 left todo </div>
+    </>
   );
 }
+export default App;
